@@ -64,7 +64,7 @@ func getURL(m *dt.Msg) (string, error) {
 	v := url.Values{
 		"fid": {fid},
 	}
-	u := os.Getenv("BASE_URL") + "?/signup?" + v.Encode()
+	u := os.Getenv("ABOT_URL") + "/signup?" + v.Encode()
 	u, err := goisgd.Shorten(u)
 	if err != nil {
 		return "", err
