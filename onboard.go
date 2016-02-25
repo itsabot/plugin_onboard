@@ -7,9 +7,9 @@ import (
 
 	"github.com/NickPresta/GoURLShortener"
 	log "github.com/Sirupsen/logrus"
-	"itsabot.org/abot/shared/datatypes"
-	"itsabot.org/abot/shared/nlp"
-	"itsabot.org/abot/shared/pkg"
+	"github.com/itsabot/abot/shared/datatypes"
+	"github.com/itsabot/abot/shared/nlp"
+	"github.com/itsabot/abot/shared/pkg"
 )
 
 var p *pkg.Pkg
