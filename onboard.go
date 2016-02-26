@@ -6,37 +6,36 @@ import (
 	"os"
 
 	"github.com/NickPresta/GoURLShortener"
-	log "github.com/Sirupsen/logrus"
 	"github.com/itsabot/abot/shared/datatypes"
+	"github.com/itsabot/abot/shared/log"
 	"github.com/itsabot/abot/shared/nlp"
 	"github.com/itsabot/abot/shared/pkg"
 )
 
 var p *pkg.Pkg
-var l *log.Entry
 
 type Onboard string
+
+const pkgName string = "onboard"
 
 func main() {
 	var coreaddr string
 	flag.StringVar(&coreaddr, "coreaddr", "",
 		"Port used to communicate with Abot.")
 	flag.Parse()
-
-	l = log.WithFields(log.Fields{"pkg": "onboard"})
-
+	l := log.New(pkgName)
 	trigger := &nlp.StructuredInput{
 		Commands: []string{"onboard"},
 		Objects:  []string{"onboard"},
 	}
 	var err error
-	p, err = pkg.NewPackage("onboard", coreaddr, trigger)
+	p, err = pkg.NewPackage(pkgName, coreaddr, trigger)
 	if err != nil {
-		l.Fatalln("building", err)
+		l.Fatal("building", err)
 	}
 	onboard := new(Onboard)
 	if err := p.Register(onboard); err != nil {
-		l.Fatalln("registering", err)
+		l.Fatal("registering", err)
 	}
 }
 
