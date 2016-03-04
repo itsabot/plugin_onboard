@@ -9,27 +9,27 @@ import (
 	"github.com/itsabot/abot/shared/datatypes"
 	"github.com/itsabot/abot/shared/log"
 	"github.com/itsabot/abot/shared/nlp"
-	"github.com/itsabot/abot/shared/pkg"
+	"github.com/itsabot/abot/shared/plugin"
 )
 
-var p *pkg.Pkg
+var p *plugin.Plugin
 
 type Onboard string
 
-const pkgName string = "onboard"
+const pluginName string = "onboard"
 
 func main() {
 	var coreaddr string
 	flag.StringVar(&coreaddr, "coreaddr", "",
 		"Port used to communicate with Abot.")
 	flag.Parse()
-	l := log.New(pkgName)
+	l := log.New(pluginName)
 	trigger := &nlp.StructuredInput{
 		Commands: []string{"onboard"},
 		Objects:  []string{"onboard"},
 	}
 	var err error
-	p, err = pkg.NewPackage(pkgName, coreaddr, trigger)
+	p, err = plugin.NewPlugin(pluginName, coreaddr, trigger)
 	if err != nil {
 		l.Fatal("building", err)
 	}
