@@ -1,6 +1,4 @@
 {
 	"Name": "Onboard",
-	"AdminPanel": {
-		"Icon": "icon.svg"
-	}
+	"Icon": "assets/images/icon.svg"
 }

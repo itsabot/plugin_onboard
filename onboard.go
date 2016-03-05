@@ -1,65 +1,50 @@
-package main
+package onboard
 
 import (
-	"flag"
+	"log"
 	"net/url"
 	"os"
 
 	"github.com/NickPresta/GoURLShortener"
 	"github.com/itsabot/abot/shared/datatypes"
-	"github.com/itsabot/abot/shared/log"
 	"github.com/itsabot/abot/shared/nlp"
 	"github.com/itsabot/abot/shared/plugin"
 )
 
-var p *plugin.Plugin
+var p *dt.Plugin
 
-type Onboard string
-
-const pluginName string = "onboard"
-
-func main() {
-	var coreaddr string
-	flag.StringVar(&coreaddr, "coreaddr", "",
-		"Port used to communicate with Abot.")
-	flag.Parse()
-	l := log.New(pluginName)
+func init() {
 	trigger := &nlp.StructuredInput{
 		Commands: []string{"onboard"},
 		Objects:  []string{"onboard"},
 	}
+	fns := &dt.PluginFns{Run: Run, FollowUp: FollowUp}
 	var err error
-	p, err = plugin.NewPlugin(pluginName, coreaddr, trigger)
+	p, err = plugin.New("github.com/itsabot/plugin_onboard", trigger, fns)
 	if err != nil {
-		l.Fatal("building", err)
-	}
-	onboard := new(Onboard)
-	if err := p.Register(onboard); err != nil {
-		l.Fatal("registering", err)
+		log.Fatal("building", err)
 	}
 }
 
-func (t *Onboard) Run(m *dt.Msg, resp *string) error {
-	u, err := getURL(m)
+func Run(in *dt.Msg) (string, error) {
+	u, err := getURL(in)
 	if err != nil {
-		return err
+		return "Something went wrong. I'll figure it out. :(", err
 	}
-	*resp = "Hi, I'm Abot, your new personal assistant. To get started, please sign up here: " + u
-	return nil
+	return "Hi, I'm Abot, your new personal assistant. To get started, please sign up here: " + u, nil
 }
 
-func (t *Onboard) FollowUp(m *dt.Msg, resp *string) error {
-	u, err := getURL(m)
+func FollowUp(in *dt.Msg) (string, error) {
+	u, err := getURL(in)
 	if err != nil {
-		return err
+		return "", err
 	}
-	*resp = "Hi, I'm Abot. To get started, you can sign up here: " + u
-	return nil
+	return "Hi, I'm Abot. To get started, you can sign up here: " + u, nil
 }
 
 // TODO fix, passing in flexid to msg
-func getURL(m *dt.Msg) (string, error) {
-	fid := m.FlexID
+func getURL(in *dt.Msg) (string, error) {
+	fid := in.FlexID
 	v := url.Values{
 		"fid": {fid},
 	}
