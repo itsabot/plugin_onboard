@@ -7,7 +7,7 @@ import (
 
 	"github.com/NickPresta/GoURLShortener"
 	"github.com/itsabot/abot/shared/datatypes"
-	"github.com/itsabot/abot/shared/nlp"
+	"github.com/itsabot/abot/core/nlp"
 	"github.com/itsabot/abot/shared/plugin"
 )
 
